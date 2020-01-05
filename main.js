@@ -57,6 +57,9 @@ app.on('ready', () => {
     globalShortcut.register('W', () => {
       win.webContents.send('keyEvent', 'W');
     });
+    globalShortcut.register('X', () => {
+      win.webContents.send('keyEvent', 'X');
+    });
 });
 
 app.on('will-quit', () => {

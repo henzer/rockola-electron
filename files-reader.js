@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const dataurl = require('dataurl');
 
 function readMusic(path) {
     const artists = [];
@@ -22,7 +23,18 @@ function readMusic(path) {
     return artists;
 };
 
+const convertSong = (filePath) => {
+    const songPromise = new Promise((resolve, reject) => {
+      fs.readFile(filePath, (err, data) => {
+        if (err) { reject(err); }
+        resolve(dataurl.convert({ data, mimetype: 'audio/mp3' }));
+      });
+    });
+    return songPromise;
+  };
+
 module.exports = {
-    readMusic: readMusic
+    readMusic: readMusic,
+    convertSong: convertSong,
 };
 

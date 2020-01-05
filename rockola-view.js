@@ -1,6 +1,6 @@
 console.log('Hola');
 const { app, BrowserWindow, dialog, globalShortcut, ipcRenderer } = require('electron');
-const { readMusic } = require('./files-reader');
+const { readMusic, convertSong } = require('./files-reader');
 
 let selectedArtistIndex = 0;
 let selectedSongIndex = 0;
@@ -29,6 +29,18 @@ paintListSongs(0);
 ipcRenderer.on('keyEvent', (event, keyPressed) => {
     selectArtist(keyPressed);
     selectSong(keyPressed);
+
+    if (keyPressed === 'X') {
+        selectedSong = songs[selectedSongIndex];
+        selectedArtist = artists[selectedArtistIndex];
+        const path = selectedArtist.path + selectedSong;
+        console.log(path);
+        const player = $("#audio-player")[0];
+        $("#audio-source").attr("src", path);
+        player.pause();
+        player.load();
+        player.oncanplaythrough = player.play();
+    }
 });
 
 function paintListSongs(selectedArtistIndex) {
@@ -36,7 +48,6 @@ function paintListSongs(selectedArtistIndex) {
     songs = artist.songs;
     let index = 0;
     songs.forEach(song => {
-        console.log(song);
         $('#list-songs').append(
             `<li class="list-group-item song `+(index===0 ? "active" : "")+`" id="song-`+ index +`">`+ song +`</li>`
         );
