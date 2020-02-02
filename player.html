@@ -4,27 +4,23 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Rockola</title>
+    <title>Player</title>
   </head>
   <body>
     <div class="app">
-        <div class="card-group artists-section" id="list-artists">
-        </div>
-        <div class="songs-section">
-          <ul class="list-group" id="list-songs">
-
-          </ul>
-        </div>
         <div class="player">
           <img id="audio-player-image" src="" alt="">
           <audio id="audio-player" controls="controls">
             <source id="audio-source" src=""></source>
           </audio>
+          <video id="video-player" controls="controls">
+            <source id="video-source" src=""></video>
+          </video>
         </div>
     </div>
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script>if (window.module) module = window.module;</script>
-    <script src="rockola-view.js"></script>
+    <script src="player.js"></script>
   </body>
 </html>

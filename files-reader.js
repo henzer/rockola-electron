@@ -1,40 +1,43 @@
-const path = require('path');
 const fs = require('fs');
-const dataurl = require('dataurl');
+const fileExtension = require("file-extension");
 
 function readMusic(path) {
     const artists = [];
     const albums = fs.readdirSync(path, {withFileTypes: true});
     albums.forEach(album => {
         if (album.isDirectory) {
-            const songs = fs.readdirSync(path + '/' + album.name);
-            console.log(album);
+            const listSongs = fs.readdirSync(path + '/' + album.name);
+            const songs = listSongs.map( song => {
+                const songPath = path + '/' + album.name + '/' + song;
+                return {
+                    path: songPath,
+                    name: song, //Add more info here
+                };
+            });
             const artist = {
                 name: album.name,
                 songs: songs,
                 path: path + '/' + album.name + '/',
             };
             artists.push(artist);
-            songs.forEach(song => {
-                console.log(song);
-            });
         }
     });
     return artists;
 };
 
-const convertSong = (filePath) => {
-    const songPromise = new Promise((resolve, reject) => {
-      fs.readFile(filePath, (err, data) => {
-        if (err) { reject(err); }
-        resolve(dataurl.convert({ data, mimetype: 'audio/mp3' }));
-      });
-    });
-    return songPromise;
-  };
+const isAudioFile = (fileName) => {
+    const extension = fileExtension(fileName);
+    return ['mp3', 'ogg', 'wav'].includes(extension);
+};
+
+const isVideoFile = (fileName) => {
+    const extension = fileExtension(fileName);
+    return ['mp4', 'webm', 'ogg'].includes(extension);
+};
 
 module.exports = {
     readMusic: readMusic,
-    convertSong: convertSong,
+    isAudioFile: isAudioFile,
+    isVideoFile: isVideoFile,
 };
 

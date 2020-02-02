@@ -1,65 +1,53 @@
 const { app, BrowserWindow, dialog, globalShortcut, ipcMain } = require('electron');
+const { readMusic } = require('./files-reader');
+const Store = require('electron-store');
+const store = new Store();
 
 let win;
+let player;
 
-function createWindow () {
-    // Create the browser window.
-    win = new BrowserWindow({
-      width: 800,
-      height: 600,
-      webPreferences: {
-        nodeIntegration: true
-      }
-    });
-
-    // and load the index.html of the app.
-    win.loadFile('index.html');
-};
-
-function showDialog(keyPressed) {
-  dialog.showMessageBox({
-    type: 'info',
-    message: 'Success!',
-    detail: 'You pressed: '+ keyPressed,
-    buttons: ['OK']
-  });
-}
-
-
-
-
-
-let rightClickPosition = null
-
-
+const library = readMusic('music');
+store.set('library', library);
+store.set('playList', []);
+console.log(store.get('library'));
 
 app.on('ready', () => {
     win = new BrowserWindow({
-      width: 1000,
-      height: 600,
-      webPreferences: {
-        nodeIntegration: true
-      }
+        fullscreen: true,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
     win.loadFile('index.html');
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.show()
 
-    globalShortcut.register('A', () => {
-      win.webContents.send('keyEvent', 'A');
+    player = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false,
+        webPreferences: {
+            nodeIntegration: true
+        },
+        parent: win,
     });
-    globalShortcut.register('S', () => {
-      win.webContents.send('keyEvent', 'S');
-    });
-    globalShortcut.register('D', () => {
-      win.webContents.send('keyEvent', 'D');
-    });
-    globalShortcut.register('W', () => {
-      win.webContents.send('keyEvent', 'W');
-    });
-    globalShortcut.register('X', () => {
-      win.webContents.send('keyEvent', 'X');
-    });
+    player.loadFile('player.html');
+    // player.webContents.openDevTools();
+});
+
+ipcMain.on('playMusic', (event, song) => {
+    player.webContents.send("addSong", song);
+});
+
+ipcMain.on('showPlayer', (event) => {
+    if (!player.isVisible()) {
+        player.show();
+    }
+});
+
+ipcMain.on('showRockola', (event) => {
+    player.hide();
+    win.webContents.send('showRockola');
 });
 
 app.on('will-quit', () => {
