@@ -54,15 +54,27 @@ app.on('will-quit', () => {
     globalShortcut.unregisterAll();
 });
 
-var pushButton = new Gpio(2, 'in', 'rising', {debounceTimeout: 10});
+var b1 = new Gpio(2, 'in', 'rising', {debounceTimeout: 10});//3
+var b2 = new Gpio(3, 'in', 'rising', {debounceTimeout: 10});//5
+var b3 = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});//7
+var b4 = new Gpio(14, 'in', 'rising', {debounceTimeout: 10});//8
+var b5 = new Gpio(15, 'in', 'rising', {debounceTimeout: 10});//10
+var b6 = new Gpio(17, 'in', 'rising', {debounceTimeout: 10});//11
+var b7 = new Gpio(18, 'in', 'rising', {debounceTimeout: 10});//12
+var b8 = new Gpio(27, 'in', 'rising', {debounceTimeout: 10});//13
+var b9 = new Gpio(22, 'in', 'rising', {debounceTimeout: 10});//15
 
-pushButton.watch(function (err, value) {
-    if (err) {
-        console.error('There was an error', err);
-        return;
-    }
-    console.log('Se presiono el pin 2');
-});
+b1.watch((error, value) => console.log('Se presiono: ' + 1));
+b2.watch((error, value) => console.log('Se presiono: ' + 2));
+b3.watch((error, value) => console.log('Se presiono: ' + 3));
+
+b4.watch((error, value) => console.log('Se presiono: ' + 4));
+b5.watch((error, value) => console.log('Se presiono: ' + 5));
+b6.watch((error, value) => console.log('Se presiono: ' + 6));
+
+b7.watch((error, value) => console.log('Se presiono: ' + 7));
+b8.watch((error, value) => console.log('Se presiono: ' + 8));
+b9.watch((error, value) => console.log('Se presiono: ' + 9));
 
 
 function unexportOnClose() { //function to run when exiting program
