@@ -54,24 +54,25 @@ app.on('will-quit', () => {
     globalShortcut.unregisterAll();
 });
 
-var b1 = new Gpio(2, 'in', 'both', {debounceTimeout: 10});//3
-var b2 = new Gpio(3, 'in', 'both', {debounceTimeout: 10});//5
-var b3 = new Gpio(4, 'in', 'both', {debounceTimeout: 10});//7
-var b4 = new Gpio(23, 'in', 'both', {debounceTimeout: 10});//16
-var b5 = new Gpio(15, 'in', 'both', {debounceTimeout: 10});//10
-var b6 = new Gpio(17, 'in', 'both', {debounceTimeout: 10});//11
-var b7 = new Gpio(18, 'in', 'both', {debounceTimeout: 10});//12
-var b8 = new Gpio(27, 'in', 'both', {debounceTimeout: 10});//13
-var b9 = new Gpio(22, 'in', 'both', {debounceTimeout: 10});//15
 
-b1.watch((error, value) => console.log('Se presiono: ' + 1));
-b2.watch((error, value) => console.log('Se presiono: ' + 2));
-b3.watch((error, value) => console.log('Se presiono: ' + 3));
+var pin3 = new Gpio(2, 'in', 'rising', {debounceTimeout: 10});//3
+var pin5 = new Gpio(3, 'in', 'rising', {debounceTimeout: 10});//5
+var pin7 = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});//7
+var pin8 = new Gpio(14, 'in', 'rising', {debounceTimeout: 10});//8
+var pin10 = new Gpio(15, 'in', 'rising', {debounceTimeout: 10});//10
+var pin11 = new Gpio(17, 'in', 'rising', {debounceTimeout: 10});//11
+var pin12 = new Gpio(18, 'in', 'rising', {debounceTimeout: 10});//12
+var pin13 = new Gpio(27, 'in', 'rising', {debounceTimeout: 10});//13
+var pin15 = new Gpio(22, 'in', 'rising', {debounceTimeout: 10});//15
 
-b4.watch((error, value) => console.log('Se presiono: ' + 4));
-b5.watch((error, value) => console.log('Se presiono: ' + 5));
-b6.watch((error, value) => console.log('Se presiono: ' + 6));
+pin3.watch((error, value) => console.log('Se presiono: ' + 3));
+pin5.watch((error, value) => console.log('Se presiono: ' + 5));
+pin7.watch((error, value) => console.log('Se presiono: ' + 7));
 
-b7.watch((error, value) => console.log('Se presiono: ' + 7));
-b8.watch((error, value) => console.log('Se presiono: ' + 8));
-b9.watch((error, value) => console.log('Se presiono: ' + 9));
+pin8.watch((error, value) => console.log('Se presiono: ' + 8));
+pin10.watch((error, value) => console.log('Se presiono: ' + 10));
+pin11.watch((error, value) => console.log('Se presiono: ' + 11));
+
+pin12.watch((error, value) => console.log('Se presiono: ' + 12));
+pin13.watch((error, value) => console.log('Se presiono: ' + 13));
+pin15.watch((error, value) => console.log('Se presiono: ' + 15));
