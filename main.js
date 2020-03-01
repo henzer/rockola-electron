@@ -57,7 +57,7 @@ app.on('will-quit', () => {
 var b1 = new Gpio(2, 'in', 'falling', {debounceTimeout: 10});//3
 var b2 = new Gpio(3, 'in', 'falling', {debounceTimeout: 10});//5
 var b3 = new Gpio(4, 'in', 'falling', {debounceTimeout: 10});//7
-// var b4 = new Gpio(14, 'in', 'rising', {debounceTimeout: 10});//8
+var b4 = new Gpio(14, 'in', 'rising', {debounceTimeout: 10});//8
 var b5 = new Gpio(15, 'in', 'falling', {debounceTimeout: 10});//10
 var b6 = new Gpio(17, 'in', 'falling', {debounceTimeout: 10});//11
 var b7 = new Gpio(18, 'in', 'falling', {debounceTimeout: 10});//12
@@ -68,7 +68,7 @@ b1.watch((error, value) => console.log('Se presiono: ' + 1));
 b2.watch((error, value) => console.log('Se presiono: ' + 2));
 b3.watch((error, value) => console.log('Se presiono: ' + 3));
 
-// b4.watch((error, value) => console.log('Se presiono: ' + 4));
+b4.watch((error, value) => console.log('Se presiono: ' + 4));
 b5.watch((error, value) => console.log('Se presiono: ' + 5));
 b6.watch((error, value) => console.log('Se presiono: ' + 6));
 
