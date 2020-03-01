@@ -54,15 +54,15 @@ app.on('will-quit', () => {
     globalShortcut.unregisterAll();
 });
 
-var b1 = new Gpio(2, 'in', 'rising', {debounceTimeout: 10});//3
-var b2 = new Gpio(3, 'in', 'rising', {debounceTimeout: 10});//5
-var b3 = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});//7
+var b1 = new Gpio(2, 'in', 'falling', {debounceTimeout: 10});//3
+var b2 = new Gpio(3, 'in', 'falling', {debounceTimeout: 10});//5
+var b3 = new Gpio(4, 'in', 'falling', {debounceTimeout: 10});//7
 // var b4 = new Gpio(14, 'in', 'rising', {debounceTimeout: 10});//8
-var b5 = new Gpio(15, 'in', 'rising', {debounceTimeout: 10});//10
-var b6 = new Gpio(17, 'in', 'rising', {debounceTimeout: 10});//11
-var b7 = new Gpio(18, 'in', 'rising', {debounceTimeout: 10});//12
-var b8 = new Gpio(27, 'in', 'rising', {debounceTimeout: 10});//13
-var b9 = new Gpio(22, 'in', 'rising', {debounceTimeout: 10});//15
+var b5 = new Gpio(15, 'in', 'falling', {debounceTimeout: 10});//10
+var b6 = new Gpio(17, 'in', 'falling', {debounceTimeout: 10});//11
+var b7 = new Gpio(18, 'in', 'falling', {debounceTimeout: 10});//12
+var b8 = new Gpio(27, 'in', 'falling', {debounceTimeout: 10});//13
+var b9 = new Gpio(22, 'in', 'falling', {debounceTimeout: 10});//15
 
 b1.watch((error, value) => console.log('Se presiono: ' + 1));
 b2.watch((error, value) => console.log('Se presiono: ' + 2));
