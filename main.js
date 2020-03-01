@@ -75,3 +75,13 @@ b6.watch((error, value) => console.log('Se presiono: ' + 6));
 b7.watch((error, value) => console.log('Se presiono: ' + 7));
 b8.watch((error, value) => console.log('Se presiono: ' + 8));
 b9.watch((error, value) => console.log('Se presiono: ' + 9));
+
+console.log(b1.edge());
+console.log(b2.edge());
+console.log(b3.edge());
+console.log(b4.edge());
+console.log(b5.edge());
+console.log(b6.edge());
+console.log(b7.edge());
+console.log(b8.edge());
+console.log(b9.edge());
