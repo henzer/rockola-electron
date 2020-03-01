@@ -2,7 +2,7 @@ const { app, BrowserWindow, dialog, globalShortcut, ipcMain } = require('electro
 const { readMusic } = require('./files-reader');
 const Store = require('electron-store');
 const store = new Store();
-const Gpio = require('onoff').Gpio;
+// const Gpio = require('onoff').Gpio;
 
 let win;
 let player;
@@ -29,7 +29,6 @@ app.on('ready', () => {
         webPreferences: {
             nodeIntegration: true
         },
-        parent: win,
     });
     player.loadFile('player.html');
     // player.webContents.openDevTools();
@@ -55,24 +54,24 @@ app.on('will-quit', () => {
 });
 
 
-var pin3 = new Gpio(2, 'in', 'rising', {debounceTimeout: 100});//3
-var pin5 = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});//5
-var pin7 = new Gpio(4, 'in', 'rising', {debounceTimeout: 100});//7
-var pin8 = new Gpio(14, 'in', 'rising', {debounceTimeout: 100});//8
-var pin10 = new Gpio(15, 'in', 'rising', {debounceTimeout: 100});//10
-var pin11 = new Gpio(17, 'in', 'rising', {debounceTimeout: 100});//11
-var pin12 = new Gpio(18, 'in', 'rising', {debounceTimeout: 100});//12
-var pin13 = new Gpio(27, 'in', 'rising', {debounceTimeout: 100});//13
-var pin15 = new Gpio(22, 'in', 'rising', {debounceTimeout: 100});//15
+// var pin3 = new Gpio(2, 'in', 'rising', {debounceTimeout: 100});//3
+// var pin5 = new Gpio(3, 'in', 'rising', {debounceTimeout: 100});//5
+// var pin7 = new Gpio(4, 'in', 'rising', {debounceTimeout: 100});//7
+// var pin8 = new Gpio(14, 'in', 'rising', {debounceTimeout: 100});//8
+// var pin10 = new Gpio(15, 'in', 'rising', {debounceTimeout: 100});//10
+// var pin11 = new Gpio(17, 'in', 'rising', {debounceTimeout: 100});//11
+// var pin12 = new Gpio(18, 'in', 'rising', {debounceTimeout: 100});//12
+// var pin13 = new Gpio(27, 'in', 'rising', {debounceTimeout: 100});//13
+// var pin15 = new Gpio(22, 'in', 'rising', {debounceTimeout: 100});//15
 
-pin3.watch((error, value) => console.log('Se presiono: ' + 3));
-pin5.watch((error, value) => console.log('Se presiono: ' + 5));
-pin7.watch((error, value) => console.log('Se presiono: ' + 7));
+// pin3.watch((error, value) => console.log('Se presiono: ' + 3));
+// pin5.watch((error, value) => console.log('Se presiono: ' + 5));
+// pin7.watch((error, value) => console.log('Se presiono: ' + 7));
 
-pin8.watch((error, value) => console.log('Se presiono: ' + 8));
-pin10.watch((error, value) => console.log('Se presiono: ' + 10));
-pin11.watch((error, value) => console.log('Se presiono: ' + 11));
+// pin8.watch((error, value) => console.log('Se presiono: ' + 8));
+// pin10.watch((error, value) => console.log('Se presiono: ' + 10));
+// pin11.watch((error, value) => console.log('Se presiono: ' + 11));
 
-pin12.watch((error, value) => console.log('Se presiono: ' + 12));
-pin13.watch((error, value) => console.log('Se presiono: ' + 13));
-pin15.watch((error, value) => console.log('Se presiono: ' + 15));
+// pin12.watch((error, value) => console.log('Se presiono: ' + 12));
+// pin13.watch((error, value) => console.log('Se presiono: ' + 13));
+// pin15.watch((error, value) => console.log('Se presiono: ' + 15));

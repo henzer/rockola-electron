@@ -59,6 +59,7 @@ function paintListSongs(selectedArtistIndex) {
     selectedSongIndex = 0;
     songs = artist.songs;
     let index = 0;
+    console.log('Songs: ', songs);
     songs.forEach(song => {
         $('#list-songs').append(
             `<li class="list-group-item song `+(index===0 ? "active" : "")+`" id="song-`+ index +`">`+ song.name +`</li>`

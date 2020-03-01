@@ -11,13 +11,13 @@ function readMusic(path) {
             const listSongs = fs.readdirSync(path + '/' + album.name);
             const songs = listSongs.map( song => {
                 const songPath = path + '/' + album.name + '/' + song;
-                if (fileExtension(songPath) !== 'jpg') {
-                    return {
-                        path: songPath,
-                        name: song, //Add more info here
-                    };
-                }
-            });
+                console.log('Song: ', song);
+                console.log('Extension: ', fileExtension(songPath) !== 'jpg');
+                return {
+                    path: songPath,
+                    name: song, //Add more info here
+                };
+            }).filter(song => fileExtension(song.path) !== 'jpg');
             const artist = {
                 name: album.name,
                 songs: songs,
