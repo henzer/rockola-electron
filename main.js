@@ -75,5 +75,3 @@ b6.watch((error, value) => console.log('Se presiono: ' + 6));
 b7.watch((error, value) => console.log('Se presiono: ' + 7));
 b8.watch((error, value) => console.log('Se presiono: ' + 8));
 b9.watch((error, value) => console.log('Se presiono: ' + 9));
-
-function pressButton (key)
