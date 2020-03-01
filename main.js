@@ -57,7 +57,7 @@ app.on('will-quit', () => {
 var b1 = new Gpio(2, 'in', 'both', {debounceTimeout: 10});//3
 var b2 = new Gpio(3, 'in', 'both', {debounceTimeout: 10});//5
 var b3 = new Gpio(4, 'in', 'both', {debounceTimeout: 10});//7
-var b4 = new Gpio(14, 'in', 'both', {debounceTimeout: 10});//8
+var b4 = new Gpio(23, 'in', 'both', {debounceTimeout: 10});//16
 var b5 = new Gpio(15, 'in', 'both', {debounceTimeout: 10});//10
 var b6 = new Gpio(17, 'in', 'both', {debounceTimeout: 10});//11
 var b7 = new Gpio(18, 'in', 'both', {debounceTimeout: 10});//12
@@ -76,12 +76,4 @@ b7.watch((error, value) => console.log('Se presiono: ' + 7));
 b8.watch((error, value) => console.log('Se presiono: ' + 8));
 b9.watch((error, value) => console.log('Se presiono: ' + 9));
 
-console.log(b1.activeLow());
-console.log(b2.activeLow());
-console.log(b3.activeLow());
-console.log(b4.activeLow());
-console.log(b5.activeLow());
-console.log(b6.activeLow());
-console.log(b7.activeLow());
-console.log(b8.activeLow());
-console.log(b9.activeLow());
+function pressButton (key)
