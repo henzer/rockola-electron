@@ -54,7 +54,7 @@ app.on('will-quit', () => {
     globalShortcut.unregisterAll();
 });
 
-var pushButton = new Gpio(2, 'in', 'both');
+var pushButton = new Gpio(2, 'in', 'rising', {debounceTimeout: 10});
 
 pushButton.watch(function (err, value) {
     if (err) {
