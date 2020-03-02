@@ -17,9 +17,10 @@ let songs = artists[0].songs;
 
 let index = 0;
 artists.forEach(artist => {
+    const image = (artist.image) ? artist.image.path : artist.path + 'picture.jpg';
     $('#list-artists').append(
         `<div class="card artist-card artist `+ (index===0 ? "active" : "")+`" id="artist-` +index+ `">
-            <img src="`+ artist.path + 'picture.jpg' + `" class="card-img-top artist-image">
+            <img src="`+ image + `" class="card-img-top artist-image">
             <div class="card-body artist-description">
               <h5 class="card-title">` + artist.name + `</h5>
             </div>
@@ -36,7 +37,7 @@ ipcRenderer.on('showRockola', (event) => {
 
 setInterval(() => {
     idleTime++;
-    if (idleTime >= 10) {
+    if (idleTime >= 5) {
         ipcRenderer.send('showPlayer');
     }
 }, 1000);

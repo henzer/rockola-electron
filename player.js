@@ -25,19 +25,32 @@ const playSong = (song) => {
         playAudio(song);
     } else if (isVideoFile(song.path)) {
         playVideo(song);
+    } else {
+        console.log('Formato no soportado: ', song);
     }
 };
 
 const playAudio = (song) => {
-    let tags = NodeID3.read(song.path);
-    const image = tags.image;
-    $("#audio-player-image").attr("src", "data:" + image.mime + ";base64," + image.imageBuffer.toString('base64'));
-    $("#audio-source").attr("src", song.path);
-    $('#audio-player-image, #audio-player').show();
-    const player = $("#audio-player")[0];
-    player.pause();
-    player.load();
-    player.oncanplaythrough = player.play();
+    try {
+        let tags = NodeID3.read(song.path);
+        const image = tags.image;
+        $("#audio-player-image").attr("src", "data:" + image.mime + ";base64," + image.imageBuffer.toString('base64'));
+        $("#audio-source").attr("src", song.path);
+        $('#audio-player-image, #audio-player').show();
+        const player = $("#audio-player")[0];
+        player.pause();
+        player.load();
+        player.oncanplaythrough = player.play();
+    } catch(exception) {
+        console.log('Ocurrio un error: ', exception);
+        console.log('Reproduciendo siguiente cancion');
+        removeSong();
+        const song = pickSong();
+        if (song) {
+            playSong(song);
+        }
+    }
+
 }
 
 const playVideo = (video) => {
@@ -51,15 +64,17 @@ const playVideo = (video) => {
 
 ipcRenderer.on('addSong', (event, song) => {
     console.log('Playing: ', song);
-    playList.push(song);
+    // playList.push(song);
 
-    if (playList.length === 1) {
-        const song = pickSong();
-        playSong(song);
-    }
+    // if (playList.length === 1) {
+    //     const song = pickSong();
+    //     playSong(song);
+    // }
 
-    store.set('playList', playList);
-    console.log(store.get("playList"));
+    // store.set('playList', playList);
+    // console.log(store.get("playList"));
+
+    playSong(song);
 });
 
 $("#audio-player, #video-player").on("ended", () => {

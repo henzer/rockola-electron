@@ -2,15 +2,26 @@ const { app, BrowserWindow, dialog, globalShortcut, ipcMain } = require('electro
 const { readMusic } = require('./files-reader');
 const Store = require('electron-store');
 const store = new Store();
+const SCAN_MUSIC = process.env.SCAN_MUSIC;
+const URL_MUSIC = process.env.URL_MUSIC;
 // const Gpio = require('onoff').Gpio;
+
+console.log(SCAN_MUSIC);
 
 let win;
 let player;
 
-const library = readMusic('music');
-store.set('library', library);
-store.set('playList', []);
-console.log(store.get('library'));
+const urlMusic = URL_MUSIC ? URL_MUSIC : 'music';
+var library;
+if (SCAN_MUSIC || !store.get('library')) {
+    console.log('Cargando musica');
+    library = readMusic(urlMusic);
+    store.set('library', library);
+    store.set('playList', []);
+} else {
+    console.log('Leyendo de memoria');
+    library = store.get('library');
+}
 
 app.on('ready', () => {
     win = new BrowserWindow({
@@ -20,7 +31,7 @@ app.on('ready', () => {
         }
     });
     win.loadFile('index.html');
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
     win.show()
 
     player = new BrowserWindow({
@@ -31,7 +42,7 @@ app.on('ready', () => {
         },
     });
     player.loadFile('player.html');
-    // player.webContents.openDevTools();
+    player.webContents.openDevTools();
 });
 
 ipcMain.on('playMusic', (event, song) => {

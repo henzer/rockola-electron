@@ -6,22 +6,23 @@ const supportedVideos = ['mp4', 'webm', 'ogg'];
 function readMusic(path) {
     const artists = [];
     const albums = fs.readdirSync(path, {withFileTypes: true});
+    var image = 'picture.jpg';
     albums.forEach(album => {
         if (album.isDirectory) {
             const listSongs = fs.readdirSync(path + '/' + album.name);
             const songs = listSongs.map( song => {
                 const songPath = path + '/' + album.name + '/' + song;
                 console.log('Song: ', song);
-                console.log('Extension: ', fileExtension(songPath) !== 'jpg');
                 return {
                     path: songPath,
                     name: song, //Add more info here
                 };
-            }).filter(song => fileExtension(song.path) !== 'jpg');
+            });
             const artist = {
                 name: album.name,
-                songs: songs,
+                songs: songs.filter(song => fileExtension(song.path) !== 'jpg'),
                 path: path + '/' + album.name + '/',
+                image: songs.filter(song => fileExtension(song.path) === 'jpg')[0],
             };
             artists.push(artist);
         }
