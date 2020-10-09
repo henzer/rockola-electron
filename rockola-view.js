@@ -46,7 +46,7 @@ function verifyIdleTime() {
 
 document.addEventListener('keydown', event => {
     const keyPressed = event.key;
-    console.log(keyPressed);
+    // console.log(keyPressed);
     if (keyPressed === "a" || keyPressed === "d") selectArtist(keyPressed);
     if (keyPressed === "s" || keyPressed === "w") selectSong(keyPressed);
 
@@ -79,7 +79,7 @@ function paintListSongs(selectedArtistIndex) {
     selectedSongIndex = 0;
     songs = artist.songs;
     let index = 0;
-    console.log('Songs: ', songs);
+    // console.log('Songs: ', songs);
     songs.forEach(song => {
         $('#list-songs').append(
             `<li class="list-group-item song `+(index===0 ? "active" : "")+`" id="song-`+ index +`">`+ song.name +`</li>`
@@ -127,7 +127,7 @@ function selectArtist(keyPressed) {
     }
     $(".artist").removeClass("active");
     $('#artist-' + selectedCardIndex).addClass("active");
-    console.log("selectedArtist: ", selectedArtistIndex, selectedCardIndex, " carrusel: ", carrusel);
+    // console.log("selectedArtist: ", selectedArtistIndex, selectedCardIndex, " carrusel: ", carrusel);
 
     $("#list-songs").empty();
     paintListSongs(selectedArtistIndex);
