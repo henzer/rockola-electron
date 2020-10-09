@@ -116,7 +116,9 @@ function moveLeft() {
     }
 }
 
+let beforeSelectedCardIndex = 0;
 function selectArtist(keyPressed) {
+    beforeSelectedCardIndex = selectedCardIndex;
     switch (keyPressed) {
         case "a":
             moveLeft();
@@ -125,12 +127,12 @@ function selectArtist(keyPressed) {
             moveRight();
             break;
     }
-    $(".artist").removeClass("active");
+    $("#artist-" + beforeSelectedCardIndex).removeClass("active");
     $('#artist-' + selectedCardIndex).addClass("active");
     console.log("selectedArtist: ", selectedArtistIndex, selectedCardIndex, " carrusel: ", carrusel);
 
-    $("#list-songs").empty();
-    paintListSongs(selectedArtistIndex);
+    // $("#list-songs").empty();
+    // paintListSongs(selectedArtistIndex);
 }
 
 function selectSong(keyPressed) {
