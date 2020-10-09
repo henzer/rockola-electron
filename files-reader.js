@@ -1,7 +1,7 @@
 const fs = require('fs');
 const fileExtension = require("file-extension");
-const supportedAudios = ['mp3', 'ogg', 'wav'];
-const supportedVideos = ['mp4', 'webm', 'ogg'];
+const supportedAudios = ['mp3', 'ogg', 'wav', 'wma'];
+const supportedVideos = ['mp4', 'webm', 'ogg', 'mpg', 'mpeg', 'avi'];
 
 function readMusic(path) {
     const artists = [];
@@ -9,25 +9,29 @@ function readMusic(path) {
     var image = 'picture.jpg';
     albums.forEach(album => {
         if (album.isDirectory) {
-            const listSongs = fs.readdirSync(path + '/' + album.name);
-            const songs = listSongs.map( song => {
-                const songPath = path + '/' + album.name + '/' + song;
-                console.log('Song: ', song);
-                return {
-                    path: songPath,
-                    name: song, //Add more info here
+            try {
+                const listSongs = fs.readdirSync(path + '/' + album.name);
+                const songs = listSongs.map( song => {
+                    const songPath = path + '/' + album.name + '/' + song;
+                    console.log('Song: ', song);
+                    return {
+                        path: songPath,
+                        name: song, //Add more info here
+                    };
+                });
+                const artist = {
+                    name: album.name,
+                    songs: songs.filter(song => fileExtension(song.path) == 'wma' || fileExtension(song.path) == 'mp3' || fileExtension(song.path) == 'mp4'),
+                    path: path + '/' + album.name + '/',
+                    image: songs.filter(song => fileExtension(song.path) === 'jpg')[0],
                 };
-            });
-            const artist = {
-                name: album.name,
-                songs: songs.filter(song => fileExtension(song.path) !== 'jpg'),
-                path: path + '/' + album.name + '/',
-                image: songs.filter(song => fileExtension(song.path) === 'jpg')[0],
-            };
-            artists.push(artist);
+                artists.push(artist);
+            } catch (error) {
+                console.log(error);
+            }
         }
     });
-    return artists;
+    return artists.filter(artist => artist.songs.length > 0);
 };
 
 const isAudioFile = (fileName) => {

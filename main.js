@@ -17,11 +17,11 @@ if (SCAN_MUSIC || !store.get('library')) {
     console.log('Cargando musica');
     library = readMusic(urlMusic);
     store.set('library', library);
-    store.set('playList', []);
 } else {
     console.log('Leyendo de memoria');
     library = store.get('library');
 }
+store.set('playList', []);
 
 app.on('ready', () => {
     win = new BrowserWindow({
@@ -33,7 +33,6 @@ app.on('ready', () => {
     win.loadFile('index.html');
     win.webContents.openDevTools();
     win.show()
-
     player = new BrowserWindow({
         fullscreen: true,
         show: false,
@@ -42,7 +41,8 @@ app.on('ready', () => {
         },
     });
     player.loadFile('player.html');
-    player.webContents.openDevTools();
+    player.hide();
+    // player.webContents.openDevTools();
 });
 
 ipcMain.on('playMusic', (event, song) => {
@@ -50,14 +50,16 @@ ipcMain.on('playMusic', (event, song) => {
 });
 
 ipcMain.on('showPlayer', (event) => {
+    console.log('Show player');
     if (!player.isVisible()) {
         player.show();
     }
 });
 
 ipcMain.on('showRockola', (event) => {
+    console.log('Show Rockola');
+    win.webContents.send("showRockola");
     player.hide();
-    win.webContents.send('showRockola');
 });
 
 app.on('will-quit', () => {

@@ -1,14 +1,11 @@
 html, body, .app {
     height: 100%;
     margin: 0;
+    overflow: hidden;
 }
 
 .artists-section {
-    width: 1000px;
-    margin: 0 auto;
-    height: 50%;
-    overflow-x: auto;
-    flex-wrap: nowrap;
+    height: 250px;
 }
 
 .artist-card {
@@ -16,12 +13,15 @@ html, body, .app {
     width: 20%;
     min-width: 20%;
     max-width: 20%;
-    padding: 2px;
     box-sizing: border-box;
     float: left;
 }
 
-.list-group {
+.artist-image {
+    max-height: 40%;
+}
+
+#list-songs {
     max-height: 250px;
     margin-bottom: 10px;
     overflow-y:scroll;
@@ -30,8 +30,6 @@ html, body, .app {
 .artists-section .active {
     background-color: blue;
 }
-.player, #audio-player {
-    width: 100%;
-}
+
 
 

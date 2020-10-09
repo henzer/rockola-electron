@@ -1,23 +1,8 @@
 const { app, BrowserWindow, dialog, globalShortcut, ipcRenderer, remote } = require('electron');
 const NodeID3 = require('node-id3');
 const { isAudioFile, isVideoFile } = require("./files-reader");
+const { pickSong, removeSong, addSong, isEmpty, getPlayList } = require('./play-list');
 const Store = require('electron-store');
-const store = new Store();
-const playList = [];
-
-const pickSong = () => {
-    if (playList.length) {
-        return playList[0];
-    }
-    return undefined;
-};
-
-const removeSong = () => {
-    if (playList.length) {
-        playList.splice(0, 1);
-        store.set("playList", playList);
-    }
-};
 
 const playSong = (song) => {
     $('#audio-player-image, #audio-player, #video-player').hide();
@@ -34,7 +19,10 @@ const playAudio = (song) => {
     try {
         let tags = NodeID3.read(song.path);
         const image = tags.image;
-        $("#audio-player-image").attr("src", "data:" + image.mime + ";base64," + image.imageBuffer.toString('base64'));
+        console.log(tags);
+        if (image && image.mime && image.imageBuffer) {
+            $("#audio-player-image").attr("src", "data:" + image.mime + ";base64," + image.imageBuffer.toString('base64'));
+        }
         $("#audio-source").attr("src", song.path);
         $('#audio-player-image, #audio-player').show();
         const player = $("#audio-player")[0];
@@ -60,21 +48,31 @@ const playVideo = (video) => {
     player.pause();
     player.load();
     player.oncanplaythrough = player.play();
+    // openFullscreen(player);
+
 };
 
+function openFullscreen(video) {
+    console.log("hitting");
+    console.log(video);
+    if (video.requestFullscreen) {
+        video.requestFullscreen();
+    } else if (video.mozRequestFullScreen) { /* Firefox */
+        video.mozRequestFullScreen();
+    } else if (video.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        video.webkitRequestFullscreen();
+    } else if (video.msRequestFullscreen) { /* IE/Edge */
+        video.msRequestFullscreen();
+    }
+}
+
 ipcRenderer.on('addSong', (event, song) => {
-    console.log('Playing: ', song);
-    // playList.push(song);
-
-    // if (playList.length === 1) {
-    //     const song = pickSong();
-    //     playSong(song);
-    // }
-
-    // store.set('playList', playList);
-    // console.log(store.get("playList"));
-
-    playSong(song);
+    addSong(song);
+    if (getPlayList().length === 1) {
+        const song = pickSong();
+        playSong(song);
+    }
+    // playSong(song);
 });
 
 $("#audio-player, #video-player").on("ended", () => {
@@ -82,6 +80,8 @@ $("#audio-player, #video-player").on("ended", () => {
     const song = pickSong();
     if (song) {
         playSong(song);
+    } else {
+        ipcRenderer.send('showRockola');
     }
 });
 

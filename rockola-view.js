@@ -1,4 +1,3 @@
-console.log('Hola');
 const { app, BrowserWindow, dialog, globalShortcut, ipcRenderer, remote } = require('electron');
 const NodeID3 = require('node-id3');
 const Store = require('electron-store');
@@ -6,41 +5,44 @@ const store = new Store();
 
 let idleTime = 0;
 let selectedArtistIndex = 0;
+let selectedCardIndex = 0;
 let selectedSongIndex = 0;
 let selectedArtist;
 let selectedSong;
+let interval;
+let playList = [];
+const carruselZise = 5;
+let carrusel = [];
 
 console.log('Starting: ', store.get('library'));
 
 const artists = store.get('library');
 let songs = artists[0].songs;
 
-let index = 0;
-artists.forEach(artist => {
-    const image = (artist.image) ? artist.image.path : artist.path + 'picture.jpg';
-    $('#list-artists').append(
-        `<div class="card artist-card artist `+ (index===0 ? "active" : "")+`" id="artist-` +index+ `">
-            <img src="`+ image + `" class="card-img-top artist-image">
-            <div class="card-body artist-description">
-              <h5 class="card-title">` + artist.name + `</h5>
-            </div>
-        </div>`
-    );
-    index++;
-});
+carrusel = artists.filter((artist, index) => index < carruselZise);
+console.log('Carrusel: ', carrusel);
 
+paintListArtist();
 paintListSongs(0);
 
 ipcRenderer.on('showRockola', (event) => {
+    console.log('Showing Rockola first time');
     idleTime = 0;
+    interval = setInterval(verifyIdleTime, 1000);
 });
 
-setInterval(() => {
+interval = setInterval(verifyIdleTime, 1000);
+
+function verifyIdleTime() {
     idleTime++;
-    if (idleTime >= 5) {
+    playList = store.get("playList", []);
+    if (idleTime >= 5 && playList.length) {
+        console.log('List size: ', playList.length);
         ipcRenderer.send('showPlayer');
+        clearInterval(interval);
     }
-}, 1000);
+};
+
 
 document.addEventListener('keydown', event => {
     const keyPressed = event.key;
@@ -54,6 +56,23 @@ document.addEventListener('keydown', event => {
     }
     idleTime = 0;
 });
+
+function paintListArtist() {
+    $('#list-artists').empty();
+    let index = 0;
+    carrusel.forEach(artist => {
+        const image = (artist.image) ? artist.image.path : artist.path + 'picture.jpg';
+        $('#list-artists').append(
+            `<div class="card artist-card artist `+ (index===0 ? "active" : "")+`" id="artist-` +index+ `">
+                <img src="`+ image + `" class="card-img-top artist-image">
+                <div class="card-body artist-description">
+                  <p class="card-title">` + artist.name + `</p>
+                </div>
+            </div>`
+        );
+        index++;
+    });
+}
 
 function paintListSongs(selectedArtistIndex) {
     const artist = artists[selectedArtistIndex];
@@ -69,19 +88,46 @@ function paintListSongs(selectedArtistIndex) {
     });
 }
 
+function moveRight() {
+    selectedArtistIndex++;
+    if (selectedCardIndex >= (carruselZise - 1)) {
+        if (selectedArtistIndex === artists.length) {
+            selectedArtistIndex = 0;
+        }
+        carrusel.push(artists[selectedArtistIndex]);
+        carrusel.shift();
+        paintListArtist();
+    } else {
+        selectedCardIndex++;
+    }
+}
+
+function moveLeft() {
+    selectedArtistIndex--;
+    if (selectedCardIndex <= 0) {
+        if (selectedArtistIndex === -1) {
+            selectedArtistIndex = artists.length - 1;
+        }
+        carrusel.unshift(artists[selectedArtistIndex]);
+        carrusel.pop();
+        paintListArtist();
+    } else {
+        selectedCardIndex--;
+    }
+}
+
 function selectArtist(keyPressed) {
     switch (keyPressed) {
         case "a":
-            selectedArtistIndex = (selectedArtistIndex <= 0) ? artists.length - 1 : selectedArtistIndex - 1;
+            moveLeft();
             break;
         case "d":
-            selectedArtistIndex = (selectedArtistIndex >= artists.length - 1) ? 0 : selectedArtistIndex + 1;
+            moveRight();
             break;
     }
-    const artist = artists[selectedArtistIndex];
     $(".artist").removeClass("active");
-    $("#artist-" + selectedArtistIndex).addClass("active");
-    keepSelectedArtistVisible();
+    $('#artist-' + selectedCardIndex).addClass("active");
+    console.log("selectedArtist: ", selectedArtistIndex, selectedCardIndex, " carrusel: ", carrusel);
 
     $("#list-songs").empty();
     paintListSongs(selectedArtistIndex);
@@ -111,18 +157,5 @@ function keepSelectedSongVisible() {
     }
     if ((activeItem.offset().top + activeItem.outerHeight()) > (listItems.offset().top + listItems.height())) {
         listItems.scrollTop((selectedSongIndex === songs.length - 1) ? Number.MAX_SAFE_INTEGER : listItems.scrollTop() + 49);
-    }
-}
-
-function keepSelectedArtistVisible() {
-    const activeItem = $("#list-artists .active");
-    const listItems = $("#list-artists");
-    const widthItem = $("#list-artists .active").outerWidth();
-
-    if (activeItem.offset().left < listItems.offset().left) {
-        listItems.scrollLeft((selectedArtistIndex === 0) ? 0 : (listItems.scrollLeft() - widthItem));
-    }
-    if ((activeItem.offset().left + activeItem.outerWidth()) > (listItems.offset().left + listItems.width())) {
-        listItems.scrollLeft((selectedArtistIndex === artists.length - 1) ? Number.MAX_SAFE_INTEGER : (listItems.scrollLeft() + widthItem));
     }
 }

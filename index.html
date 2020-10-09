@@ -7,14 +7,30 @@
     <title>Rockola</title>
   </head>
   <body>
-    <div class="app">
-        <div class="card-group artists-section" id="list-artists">
+    <h2 class="text-center">Roca Rocola</h2>
+    <div class="app row">
+      <div class="play-list-section col-3">
+        <h3 class="text-center">Lista de reproducción</h3>
+        <ul class="list-group">
+          <li class="list-group-item">Song 1</li>
+          <li class="list-group-item">Song 2</li>
+          <li class="list-group-item">Song 3</li>
+          <li class="list-group-item">Song 4</li>
+        </ul>
+      </div>
+      <div class="main-section col-9">
+        <h3 class="">Artistas: </h3>
+        <div class="row">
+          <div class="col d-flex align-items-stretch artists-section" id="list-artists">
+          </div>
         </div>
+        <h3 class="mt-3">Canciones: </h3>
         <div class="songs-section">
           <ul class="list-group" id="list-songs">
 
           </ul>
         </div>
+      </div>
     </div>
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
